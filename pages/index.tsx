@@ -1,5 +1,6 @@
+import { useSession, signIn, signOut } from "next-auth/react";
 export default function Home() {
-  return (
-    <main>hello world!</main>
-  );
+  const { data: session } = useSession();
+
+  return <main>hello world!</main>;
 }
