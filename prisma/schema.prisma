@@ -60,6 +60,8 @@ model User {
   email            String?   @unique
   emailVerified    DateTime?
   image            String?
+  onboardingComplete Boolean?
+  isSeller		   Boolean?  @default(false)
   accounts         Account[]
   requests         Booking[]   @relation("requests")
   incomingRequests Booking[]   @relation("incoming")
@@ -76,7 +78,7 @@ model Booking {
   requesterId    String
   // postInQuestion Post        @relation(fields: [postId], references: [id])
   // postId         String
-  
+
   location String
   kW Int
   indoor Boolean
