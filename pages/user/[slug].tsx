@@ -59,8 +59,24 @@ export async function getServerSideProps(context: any) {
   const user = await db.user.findUnique({
     where: {
       id: id as string,
+      isSeller: false,
     },
   });
+  const user2 = await db.user.findUnique({
+    where: {
+      id: id as string,
+      isSeller: true,
+    },
+  });
+
+  if (user2) {
+    return {
+      redirect: {
+        destination: "/host/" + id,
+        permanent: false,
+      },
+    };
+  }
 
   if (!user) {
     return {

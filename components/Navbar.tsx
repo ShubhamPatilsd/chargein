@@ -1,6 +1,6 @@
 import { db } from "../db/db";
 import { getServerSession } from "next-auth";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { HiOutlinePencilAlt, HiInbox, HiLogout, HiUser } from "react-icons/hi";
@@ -8,7 +8,7 @@ import { MdOutlineOutbox } from "react-icons/md";
 import Image from "next/image";
 import logo from "../public/logo.svg";
 
-const Navbar = () => {
+function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -34,7 +34,7 @@ const Navbar = () => {
             >
               <p className="rounded-full bg-orange-200 p-2 hover:bg-orange-300">
                 <p>
-                  <span className="mr-2 pt-1">{session.user.name}</span>
+                  <span className="mr-2 pt-1">{session.user!.name}</span>
                   <img
                     className="inline-block rounded-full"
                     src={session.user!.image}
@@ -68,6 +68,6 @@ const Navbar = () => {
       <div className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-fuchsia-500 via-orange-500 to-indigo-600" />
     </nav>
   );
-};
+}
 
 export default Navbar;
