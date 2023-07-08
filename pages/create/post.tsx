@@ -1,6 +1,7 @@
 // import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 // import { useMemo } from "react";
 import axios from "axios";
+import { useS3Upload } from "next-s3-upload";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
 import AutoComplete from "react-google-autocomplete";
@@ -39,6 +40,15 @@ export default function CreatePost() {
   const [selfCheckIn, setSelfCheckIn] = useState<boolean>();
   const [pricePerHour, setPricePerHour] = useState<number>();
   const [description, setDescription] = useState<string>();
+  let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
+
+  const [imageUrl, setImageUrl] = useState("");
+
+  let handleFileChange = async (file: any) => {
+    let { url } = await uploadToS3(file);
+
+    setImageUrl(url);
+  };
 
   return (
     <main>
@@ -59,6 +69,7 @@ export default function CreatePost() {
                 selfCheckIn,
                 description,
                 Address: address,
+                imageUrl,
               },
             });
           }}
@@ -224,7 +235,18 @@ export default function CreatePost() {
             />
           </div>
 
-          {address == "" ? (
+          <div className="mb-12 flex flex-col">
+            <label className="font-bold">Upload Image</label>
+            <div className="relative mt-1 rounded-md">
+              <FileInput onChange={handleFileChange} />
+
+              <button onClick={openFileDialog}>Browse files</button>
+
+              {imageUrl && <img src={imageUrl} />}
+            </div>
+          </div>
+
+          {address == "" || imageUrl == "" ? (
             <button
               type="submit"
               className={

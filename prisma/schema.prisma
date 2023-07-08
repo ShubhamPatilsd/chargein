@@ -103,7 +103,7 @@ model Post {
   description  String
   Address      String
   // status         TradeStatus
-  imageUrls    String[]
+  imageUrls    String?
   Booking      Booking[]
 }
 

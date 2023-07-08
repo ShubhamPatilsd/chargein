@@ -12,7 +12,7 @@ const UserPage = ({ post, author }: { post: any; author: any }) => {
   return (
     <div className="px-32 py-12">
       <div>
-        <div className="inline w-fit py-24">
+        <div className="py-100 inline w-fit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -42,6 +42,15 @@ const UserPage = ({ post, author }: { post: any; author: any }) => {
               src={author.image}
             />
           </a>
+        </div>
+        <div className="mt-8 bg-gray-100">
+          <img
+            src={
+              post.imageUrls
+              // "https://camo.githubusercontent.com/1ba1013d2941b5296fea379a3fee774387b651e7901bd2e2753fde50ddae4109/68747470733a2f2f6e6578742d73332d75706c6f61642e636f64696e6776616c75652e636f6d2f6f672d696d6167652e706e67"
+            }
+            className="h-96 w-full object-contain"
+          />
         </div>
 
         <div className="mt-12">
@@ -139,7 +148,7 @@ const UserPage = ({ post, author }: { post: any; author: any }) => {
                   d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
                 />
               </svg>
-              <span className="ml-2 text-lg">Send {author.name} an Email</span>
+              <span className="ml-2 text-lg">Book this charger</span>
               <div className="-rotate-45 no-underline">⚡</div>
             </a>
           </div>

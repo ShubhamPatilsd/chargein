@@ -36,6 +36,7 @@ export default async function handler(
         selfCheckIn,
         description,
         Address,
+        imageUrl,
       } = req.body;
 
       // console.log(parseFloat(pricePerHour));
@@ -51,6 +52,7 @@ export default async function handler(
           selfCheckIn,
           description,
           Address,
+          imageUrls: imageUrl,
         },
       });
 
