@@ -55,25 +55,7 @@ export default function CreatePost() {
       <div className="my-20 space-y-4 px-48">
         <h1 className="text-5xl font-bold">Create Post</h1>
 
-        <form
-          onSubmit={async () => {
-            await axios({
-              method: "POST",
-              url: "/api/create/post",
-              data: {
-                location: location,
-                kW: energyOutput,
-                indoor: indoors,
-                pricePerHour,
-                teslaOnly,
-                selfCheckIn,
-                description,
-                Address: address,
-                imageUrl,
-              },
-            });
-          }}
-        >
+        <div>
           <label className="font-bold">Location of Charger</label>
           <AutoComplete
             apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}
@@ -248,7 +230,7 @@ export default function CreatePost() {
 
           {address == "" || imageUrl == "" ? (
             <button
-              type="submit"
+              //   type="submit"
               className={
                 "focus-visible:ring-ring inline-flex h-9 items-center justify-center rounded-md bg-black/90 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
               }
@@ -258,7 +240,23 @@ export default function CreatePost() {
             </button>
           ) : (
             <button
-              type="submit"
+              onClick={async () => {
+                await axios({
+                  method: "POST",
+                  url: "/api/create/post",
+                  data: {
+                    location: location,
+                    kW: energyOutput,
+                    indoor: indoors,
+                    pricePerHour,
+                    teslaOnly,
+                    selfCheckIn,
+                    description,
+                    Address: address,
+                    imageUrl,
+                  },
+                });
+              }}
               className={
                 "focus-visible:ring-ring inline-flex h-9 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
               }
@@ -266,7 +264,7 @@ export default function CreatePost() {
               Create Posting
             </button>
           )}
-        </form>
+        </div>
       </div>
     </main>
   );
