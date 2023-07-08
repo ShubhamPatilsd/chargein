@@ -1,5 +1,6 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useMemo } from "react";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
   const libraries = useMemo(() => ["places"], []);
