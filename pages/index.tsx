@@ -36,7 +36,7 @@ export default function Home() {
       {/* <div className="flex"> */}
       <div className="z-1 fixed top-0 left-0 h-screen w-full max-w-xs bg-white p-4">
         <div>
-          <h1 className="text-3xl font-bold">5353 Sunol Blvd</h1>
+          <h1 className="text-2xl font-bold">5353 Sunol Blvd</h1>
         </div>
       </div>
       {/* </div> */}
