@@ -6,11 +6,7 @@ import Link from "next/link";
 
 const UserPage = ({ user }: { user: any }) => {
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen px-2 py-8">
-=======
     <div className="min-h-screen bg-white px-2 py-8">
->>>>>>> 6c25d602ddff9652dec924d81e411eb651f695c9
       <div className="mx-auto flex max-w-5xl flex-col items-center">
         <div className="w-fit overflow-hidden rounded-full border-4 border-orange-200">
           <img
