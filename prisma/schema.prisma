@@ -76,6 +76,8 @@ model Booking {
   requesterId    String
   // postInQuestion Post        @relation(fields: [postId], references: [id])
   // postId         String
+  
+  location String
   kW Int
   indoor Boolean
   pricePerHour Int
