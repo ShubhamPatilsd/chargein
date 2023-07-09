@@ -55,40 +55,56 @@ model Session {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  name             String?
-  email            String?   @unique
-  emailVerified    DateTime?
-  image            String?
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime?
+  image              String?
   onboardingComplete Boolean?
-  isSeller		   Boolean?  @default(false)
-  accounts         Account[]
-  requests         Booking[]   @relation("requests")
-  incomingRequests Booking[]   @relation("incoming")
-  sessions         Session[]
+  isSeller           Boolean?  @default(false)
+  accounts           Account[]
+  requests           Booking[] @relation("requests")
+  incomingRequests   Booking[] @relation("incoming")
+  sessions           Session[]
   // Post             Post[]
+  Post               Post[]
 }
 
 model Booking {
-  id             String      @id @default(cuid())
+  id          String @id @default(cuid())
   // Relations
-  to             User        @relation("incoming", fields: [authorId], references: [id])
-  authorId       String
-  from           User        @relation(name: "requests", fields: [requesterId], references: [id])
-  requesterId    String
+  to          User   @relation("incoming", fields: [authorId], references: [id])
+  authorId    String
+  from        User   @relation(name: "requests", fields: [requesterId], references: [id])
+  requesterId String
+
+  postInQuestion Post @relation(fields: [postId], references: [id])
+
+  postId String
+
+  startTime DateTime
+
+  endTime DateTime
   // postInQuestion Post        @relation(fields: [postId], references: [id])
   // postId         String
+}
 
-  location String
-  kW Int
-  indoor Boolean
-  pricePerHour Int
-  teslaOnly Boolean
-  selfCheckIn Boolean
-  description String
-  Address String
+model Post {
+  id       String @id @default(cuid())
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  location     String
+  kW           Int
+  indoor       Boolean
+  pricePerHour Decimal
+  teslaOnly    Boolean
+  selfCheckIn  Boolean
+  description  String
+  Address      String
   // status         TradeStatus
-  imageUrls       String[]
+  imageUrls    String[]
+  Booking      Booking[]
 }
 
 model VerificationToken {
