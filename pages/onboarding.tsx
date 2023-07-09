@@ -67,7 +67,7 @@ export default function Home({ user }: props) {
           }}
           className={`font-md mt-6  inline-block w-max space-x-2 rounded-lg border-2 p-2.5 duration-300 hover:scale-105`}
         >
-          I want to rent out my home chargers!k
+          I want to rent out my home charger!
         </button>
       </div>
     </>
