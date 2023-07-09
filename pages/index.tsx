@@ -155,7 +155,7 @@ export default function Home(props: any) {
             })}
       </GoogleMap>
       {/* <div className="flex"> */}
-      <div className="z-1 fixed top-0 left-0 h-screen w-full max-w-lg space-y-4 divide-y divide-gray-100 overflow-y-scroll border-gray-100 bg-white p-4">
+      <div className="z-1 divide-y-1 fixed bottom-0 left-0 h-[92vh] w-full max-w-lg space-y-4 divide-gray-100 overflow-y-scroll border-gray-100 bg-white p-4">
         {!geolocation.error &&
           props.places
             .filter((item) => {
@@ -223,8 +223,8 @@ export default function Home(props: any) {
               // setRefList({ ...refListClone });
 
               return (
-                <a href="/" rel="noopener">
-                  <div className="flex space-x-[10px] pt-4">
+                <a href={`/post/${thing.id}`} rel="noopener">
+                  <div className="flex space-x-[10px] rounded-lg px-4 py-4 pt-4 hover:bg-zinc-200">
                     <HiMapPin size={32} color="#FF6B00" />
                     <div>
                       <h1 className="text-2xl font-bold">{thing.Address}</h1>
