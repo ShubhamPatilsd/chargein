@@ -49,7 +49,7 @@ export default function CreatePost() {
           onPlaceSelected={(place: GoogleMapsLocation) => {
             console.log(place);
             setAddress(
-              `${place.address_components[0].short_name}, ${place.address_components[1].short_name}`
+              `${place.address_components[0].short_name} ${place.address_components[1].short_name}`
             );
 
             setLocation(
