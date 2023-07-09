@@ -1979,6 +1979,11 @@ react-google-autocomplete@^2.7.3:
     lodash.debounce "^4.0.8"
     prop-types "^15.5.0"
 
+react-hook-geolocation@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-hook-geolocation/-/react-hook-geolocation-1.1.0.tgz#922015f3cafd0ea4a7a209052a942a17cf50efb1"
+  integrity sha512-YlqFIOtozFPgcTDPDhRITIMSgIr1Op3070SCmKOTM9LD0mpZLsw7D+miwve9vD+B92Ht7f43Hn+hUMS3tHifAg==
+
 react-icons@^4.10.1:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.10.1.tgz#3f3b5eec1f63c1796f6a26174a1091ca6437a500"
