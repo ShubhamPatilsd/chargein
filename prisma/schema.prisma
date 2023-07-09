@@ -55,17 +55,17 @@ model Session {
 }
 
 model User {
-  id                 String    @id @default(cuid())
-  name               String?
-  email              String?   @unique
-  emailVerified      DateTime?
-  image              String?
-  onboardingComplete Boolean?
-  isSeller           Boolean?  @default(false)
-  accounts           Account[]
-  requests           Booking[] @relation("requests")
-  incomingRequests   Booking[] @relation("incoming")
-  sessions           Session[]
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  onboardingComplete Boolean? @default(false)
+  isSeller		   Boolean?  @default(false)
+  accounts         Account[]
+  requests         Booking[]   @relation("requests")
+  incomingRequests Booking[]   @relation("incoming")
+  sessions         Session[]
   // Post             Post[]
   Post               Post[]
 }
