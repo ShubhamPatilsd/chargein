@@ -1,13 +1,14 @@
 import { GetServerSideProps } from "next";
 import { db } from "../../db/db";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillCar } from "react-icons/ai";
 const HostPage = ({ user, listings }: { user: any; listings: any }) => {
+  const { data: session } = useSession();
   const posts = JSON.parse(listings);
   return (
-    <div className="min-h-screen bg-slate-200 px-2 py-8">
+    <div className="min-h-screen  px-2 py-8">
       <div className="mx-auto flex max-w-5xl flex-col items-center">
         <div className="w-fit overflow-hidden rounded-full border-4 border-orange-200">
           <img
@@ -18,12 +19,20 @@ const HostPage = ({ user, listings }: { user: any; listings: any }) => {
           />
         </div>
         <h1 className="mt-4 text-4xl font-bold">{user.name}</h1>
+
+        <Link
+          href={"/create/post"}
+          className="mt-4 rounded-lg bg-[#ff6b00] p-2 text-xl font-medium text-white transition duration-200  hover:scale-105"
+        >
+          Create a new rental.
+        </Link>
+
         {posts.length > 0 && (
           <div className="mt-8 grid gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {posts.map((listing: any) => {
               return (
-                <Link href="#" key={listing.id}>
-                  <div className="group relative aspect-square w-56 overflow-hidden rounded-md bg-white">
+                <Link href={"/post/" + listing.id} key={listing.id}>
+                  <div className="group relative aspect-square w-56 overflow-hidden rounded-md border-2  border-black bg-white">
                     <div className="absolute z-10 h-full w-full duration-150 " />
                     <div className="absolute z-10 flex h-full w-full flex-col  px-2 py-2  duration-150 ">
                       <span className="mb-6 text-xl font-semibold italic">
