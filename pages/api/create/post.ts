@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../db/db";
 
-import { authOptions } from "../../api/auth/[...nextauth]";
+import { authOptions } from "../auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 
 export default async function handler(
