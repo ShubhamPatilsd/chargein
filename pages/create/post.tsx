@@ -1,5 +1,6 @@
 // import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 // import { useMemo } from "react";
+import axios from "axios";
 import { useState } from "react";
 import AutoComplete from "react-google-autocomplete";
 
@@ -23,19 +24,20 @@ export interface Geometry {
 
 export interface Location {
   //   hi: number;
-  lat: number;
-  lng: number;
+  lat: any;
+  lng: any;
 }
 
 export default function CreatePost() {
   const [address, setAddress] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<any>({});
 
   const [energyOutput, setEnergyOutput] = useState<number>();
   const [indoors, setIndoors] = useState<boolean>();
   const [teslaOnly, setTeslaOnly] = useState<boolean>();
   const [selfCheckIn, setSelfCheckIn] = useState<boolean>();
   const [pricePerHour, setPricePerHour] = useState<number>();
+  const [description, setDescription] = useState<string>();
 
   return (
     <main>
@@ -51,9 +53,17 @@ export default function CreatePost() {
             );
 
             setLocation(
+              //   JSON.stringify(
+              {
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+              }
+            );
+
+            console.log(
               JSON.stringify({
-                lat: place.geometry.location.lat,
-                lng: place.geometry.location.lng,
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
               })
             );
 
@@ -98,9 +108,10 @@ export default function CreatePost() {
           <label className="font-bold">Price per hour ($)</label>
 
           <input
-            placeholder="$2.50"
+            placeholder="2.50"
             onChange={(e) => {
-              setPricePerHour(parseFloat(e.target.value));
+              console.log(parseFloat(e.target.value));
+              setPricePerHour(e.target.value);
             }}
             type={"number"}
             className={
@@ -183,8 +194,33 @@ export default function CreatePost() {
           </select>
         </div>
 
+        <div>
+          <label className="font-bold">Description</label>
+          <textarea
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+            className="border-input placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[60px] w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+
         <button
-          onClick={() => {}}
+          onClick={async () => {
+            await axios({
+              method: "POST",
+              url: "/api/create/post",
+              data: {
+                location: location,
+                kW: energyOutput,
+                indoor: indoors,
+                pricePerHour,
+                teslaOnly,
+                selfCheckIn,
+                description,
+                Address: address,
+              },
+            });
+          }}
           className="focus-visible:ring-ring inline-flex h-9 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
         >
           Create Posting

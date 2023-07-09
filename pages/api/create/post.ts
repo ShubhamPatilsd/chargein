@@ -38,13 +38,15 @@ export default async function handler(
         Address,
       } = req.body;
 
+      // console.log(parseFloat(pricePerHour));
+
       const result = await db.post.create({
         data: {
           authorId: user.id,
-          location,
+          location: JSON.stringify(location),
           kW,
           indoor,
-          pricePerHour,
+          pricePerHour: parseFloat(pricePerHour).toFixed(2).toString(),
           teslaOnly,
           selfCheckIn,
           description,
@@ -54,6 +56,7 @@ export default async function handler(
 
       await res.status(200).json({ status: 200, response: result });
     } catch (err) {
+      console.log(err);
       await res.status(500).send(`Err: ${err}`);
     }
   } else {

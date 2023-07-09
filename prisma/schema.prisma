@@ -97,7 +97,7 @@ model Post {
   location     String
   kW           Int
   indoor       Boolean
-  pricePerHour Decimal
+  pricePerHour String
   teslaOnly    Boolean
   selfCheckIn  Boolean
   description  String
