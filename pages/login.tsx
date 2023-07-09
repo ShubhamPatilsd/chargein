@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import logo from "../public/logo.svg";
@@ -20,7 +20,11 @@ export default function Home() {
         />
 
         <button
-          onClick={() => signIn("google")}
+          onClick={() =>
+            signIn("google", {
+              callbackUrl: `${window.location.origin}/onboarding`,
+            })
+          }
           className={`font-md mt-6  flex w-max space-x-2 rounded-lg border-2 p-2.5 duration-300 hover:scale-105`}
         >
           <FcGoogle className={`h-6 w-6`} /> <span>Sign in with Google</span>
@@ -28,4 +32,21 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
 }
