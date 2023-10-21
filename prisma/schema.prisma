@@ -78,10 +78,7 @@ model User {
 //   from        User   @relation(name: "requests", fields: [requesterId], references: [id])
 //   requesterId String
 
-<<<<<<< HEAD
 //   postInQuestion Post @relation(fields: [postId], references: [id])
-=======
->>>>>>> 40af90955052fb6df450aa6a92a66e2ec8d7e3be
 
 //   postId String
 
@@ -107,10 +104,7 @@ model Post {
   Address      String
   // status         TradeStatus
   imageUrls    String?
-<<<<<<< HEAD
   // Booking      Booking[]
-=======
->>>>>>> 40af90955052fb6df450aa6a92a66e2ec8d7e3be
 }
 
 model VerificationToken {

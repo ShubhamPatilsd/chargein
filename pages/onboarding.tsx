@@ -19,9 +19,9 @@ export default function Home({ user }: props) {
   return (
     <>
       <div className="px-4 py-2 text-center lg:px-48 lg:py-24">
-        <p className={"inline text-4xl font-bold"}>Welcome to ChargeIn! </p>
+        <p className={"inline text-4xl font-bold"}>Welcome to ChargeLink </p>
         <Image
-          alt="chargein logo"
+          alt="chargelink logo"
           width="35"
           className="-mt-2.5 inline "
           src={logo}

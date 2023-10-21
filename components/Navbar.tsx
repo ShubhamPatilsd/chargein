@@ -20,7 +20,7 @@ function Navbar() {
             <Image
               src={logo}
               width="30"
-              alt="chargein logo"
+              alt="chargelink logo"
               className="mr-2 -mt-1 inline-block"
             />
             <p className="inline-block"> ChargeLink</p>

@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <>
       <div className="px-4 py-2 lg:px-48 lg:py-24">
-        <p className={"inline text-4xl font-bold"}>Login to ChargeIn </p>
+        <p className={"inline text-4xl font-bold"}>Login to ChargeLink </p>
         <Image
-          alt="chargein logo"
+          alt="chargelink logo"
           width="35"
           className="-mt-2.5 inline "
           src={logo}
