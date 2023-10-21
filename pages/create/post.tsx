@@ -247,7 +247,7 @@ export default function CreatePost() {
                   data: {
                     location: location,
                     kW: energyOutput,
-                    indoor: indoors,
+                    indoor: indoors || true,
                     pricePerHour,
                     teslaOnly,
                     selfCheckIn,
