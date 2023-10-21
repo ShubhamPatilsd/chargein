@@ -63,30 +63,34 @@ model User {
   onboardingComplete Boolean? @default(false)
   isSeller		   Boolean?  @default(false)
   accounts         Account[]
-  requests         Booking[]   @relation("requests")
-  incomingRequests Booking[]   @relation("incoming")
+  // requests         Booking[]   @relation("requests")
+  // incomingRequests Booking[]   @relation("incoming")
   sessions         Session[]
   // Post             Post[]
   Post               Post[]
 }
 
-model Booking {
-  id          String @id @default(cuid())
-  // Relations
-  to          User   @relation("incoming", fields: [authorId], references: [id])
-  authorId    String
-  from        User   @relation(name: "requests", fields: [requesterId], references: [id])
-  requesterId String
+// model Booking {
+//   id          String @id @default(cuid())
+//   // Relations
+//   to          User   @relation("incoming", fields: [authorId], references: [id])
+//   authorId    String
+//   from        User   @relation(name: "requests", fields: [requesterId], references: [id])
+//   requesterId String
 
+<<<<<<< HEAD
+//   postInQuestion Post @relation(fields: [postId], references: [id])
+=======
+>>>>>>> 40af90955052fb6df450aa6a92a66e2ec8d7e3be
 
-  postId String
+//   postId String
 
-  startTime DateTime
+//   startTime DateTime
 
-  endTime DateTime
-  // postInQuestion Post        @relation(fields: [postId], references: [id])
-  // postId         String
-}
+//   endTime DateTime
+//   // postInQuestion Post        @relation(fields: [postId], references: [id])
+//   // postId         String
+// }
 
 model Post {
   id       String @id @default(cuid())
@@ -103,6 +107,10 @@ model Post {
   Address      String
   // status         TradeStatus
   imageUrls    String?
+<<<<<<< HEAD
+  // Booking      Booking[]
+=======
+>>>>>>> 40af90955052fb6df450aa6a92a66e2ec8d7e3be
 }
 
 model VerificationToken {
