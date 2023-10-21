@@ -42,7 +42,9 @@ export default function CreatePost() {
   const [description, setDescription] = useState<string>();
   let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(
+    "https://v1.tailwindcss.com/_next/static/media/tailwind-ui-sidebar.2ccd3a8ec5f31f428204b5c3c4d9a485.png"
+  );
 
   let handleFileChange = async (file: any) => {
     let { url } = await uploadToS3(file);

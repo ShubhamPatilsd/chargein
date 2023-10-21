@@ -9,27 +9,27 @@ CREATE TYPE "PreferenceType" AS ENUM ('painting', 'sculpture', 'none');
 
 -- CreateTable
 CREATE TABLE "Account" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
-    "provider" TEXT NOT NULL,
-    "providerAccountId" TEXT NOT NULL,
-    "refresh_token" TEXT,
-    "access_token" TEXT,
-    "expires_at" INTEGER,
-    "token_type" TEXT,
-    "scope" TEXT,
-    "id_token" TEXT,
-    "session_state" TEXT,
+    "id" STRING NOT NULL,
+    "userId" STRING NOT NULL,
+    "type" STRING NOT NULL,
+    "provider" STRING NOT NULL,
+    "providerAccountId" STRING NOT NULL,
+    "refresh_token" STRING,
+    "access_token" STRING,
+    "expires_at" INT4,
+    "token_type" STRING,
+    "scope" STRING,
+    "id_token" STRING,
+    "session_state" STRING,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "id" TEXT NOT NULL,
-    "sessionToken" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "id" STRING NOT NULL,
+    "sessionToken" STRING NOT NULL,
+    "userId" STRING NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
@@ -37,36 +37,50 @@ CREATE TABLE "Session" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
-    "name" TEXT,
-    "email" TEXT,
+    "id" STRING NOT NULL,
+    "name" STRING,
+    "email" STRING,
     "emailVerified" TIMESTAMP(3),
-    "image" TEXT,
+    "image" STRING,
+    "onboardingComplete" BOOL DEFAULT false,
+    "isSeller" BOOL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Booking" (
-    "id" TEXT NOT NULL,
-    "authorId" TEXT NOT NULL,
-    "requesterId" TEXT NOT NULL,
-    "kW" INTEGER NOT NULL,
-    "indoor" BOOLEAN NOT NULL,
-    "pricePerHour" INTEGER NOT NULL,
-    "teslaOnly" BOOLEAN NOT NULL,
-    "selfCheckIn" BOOLEAN NOT NULL,
-    "description" TEXT NOT NULL,
-    "Address" TEXT NOT NULL,
-    "imageUrls" TEXT[],
+    "id" STRING NOT NULL,
+    "authorId" STRING NOT NULL,
+    "requesterId" STRING NOT NULL,
+    "postId" STRING NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL,
+    "endTime" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Booking_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "Post" (
+    "id" STRING NOT NULL,
+    "authorId" STRING NOT NULL,
+    "location" STRING NOT NULL,
+    "kW" INT4 NOT NULL,
+    "indoor" BOOL NOT NULL,
+    "pricePerHour" STRING NOT NULL,
+    "teslaOnly" BOOL NOT NULL,
+    "selfCheckIn" BOOL NOT NULL,
+    "description" STRING NOT NULL,
+    "Address" STRING NOT NULL,
+    "imageUrls" STRING,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "VerificationToken" (
-    "identifier" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
+    "identifier" STRING NOT NULL,
+    "token" STRING NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
 );
 
@@ -96,3 +110,6 @@ ALTER TABLE "Booking" ADD CONSTRAINT "Booking_authorId_fkey" FOREIGN KEY ("autho
 
 -- AddForeignKey
 ALTER TABLE "Booking" ADD CONSTRAINT "Booking_requesterId_fkey" FOREIGN KEY ("requesterId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

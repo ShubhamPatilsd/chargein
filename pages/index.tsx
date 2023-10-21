@@ -300,7 +300,7 @@ export default function Home(props: any) {
 
 export async function getServerSideProps(context: any) {
   const places = await db.post.findMany({});
-  console.log(places);
+
   return {
     props: {
       places,
