@@ -263,7 +263,7 @@ export default function CreatePost() {
                 "focus-visible:ring-ring inline-flex h-9 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
               }
             >
-              Create Posting
+              Create Posting hi
             </button>
           )}
         </div>

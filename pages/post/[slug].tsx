@@ -129,7 +129,7 @@ const UserPage = ({ post, author }: { post: any; author: any }) => {
                 author.email +
                 "?cc=&bcc=&subject=Charger%20Rental&body=Hi%20" +
                 author.name +
-                "%2C%0A%0AI%20came%20across%20your%20electric%20charger%20on%20ChargeIn!%20I%E2%80%99m%20currently%20in%20the%20area%2C%20and%20would%20be%20interested%20in%20renting%20out%20a%20charging%20slot%20for%20my%20vehicle.%0A%0AThanks%2C%0A" +
+                "%2C%0A%0AI%20came%20across%20your%20electric%20charger%20on%20ChargeLink!%20I%E2%80%99m%20currently%20in%20the%20area%2C%20and%20would%20be%20interested%20in%20renting%20out%20a%20charging%20slot%20for%20my%20vehicle.%0A%0AThanks%2C%0A" +
                 session.user!.name
               }
               className="mt-12 flex w-fit cursor-pointer  rounded-lg p-0.5 underline decoration-gray-400 decoration-2 transition  hover:bg-gray-300  hover:bg-opacity-50"

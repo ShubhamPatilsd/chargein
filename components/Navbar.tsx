@@ -23,7 +23,7 @@ function Navbar() {
               alt="chargein logo"
               className="mr-2 -mt-1 inline-block"
             />
-            <p className="inline-block"> ChargeIn</p>
+            <p className="inline-block"> ChargeLink</p>
           </Link>
         </div>
         {status === "loading" ? null : status === "authenticated" ? (
