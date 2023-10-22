@@ -35,9 +35,9 @@ export default function CreatePost() {
   const [location, setLocation] = useState<any>({});
 
   const [energyOutput, setEnergyOutput] = useState<number>();
-  const [indoors, setIndoors] = useState<boolean>();
-  const [teslaOnly, setTeslaOnly] = useState<boolean>();
-  const [selfCheckIn, setSelfCheckIn] = useState<boolean>();
+  const [indoors, setIndoors] = useState<boolean>(false);
+  const [teslaOnly, setTeslaOnly] = useState<boolean>(false);
+  const [selfCheckIn, setSelfCheckIn] = useState<boolean>(false);
   const [pricePerHour, setPricePerHour] = useState<number>();
   const [description, setDescription] = useState<string>();
   let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();

@@ -106,7 +106,7 @@ export default function Home(props: any) {
             : { lat: geolocation.latitude, lng: geolocation.longitude }
         }
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerClassName="w-screen absolute z-0 min-h-[92vh]"
+        mapContainerClassName="w-[65%] right-0 absolute z-0 min-h-[92vh]"
         onLoad={() => console.log("Map Component Loaded...")}
       >
         {!geolocation.error &&
@@ -155,7 +155,7 @@ export default function Home(props: any) {
             })}
       </GoogleMap>
       {/* <div className="flex"> */}
-      <div className="z-1 divide-y-1 fixed bottom-0 left-0 h-[92vh] w-full max-w-lg space-y-4 divide-gray-100 overflow-y-scroll border-gray-100 bg-white p-4">
+      <div className="z-1 divide-y-1 bottom-0 left-0 h-full w-[35%] max-w-lg space-y-4 divide-gray-100 overflow-y-scroll border-gray-100 bg-white p-4">
         {!geolocation.error &&
           props.places
             .filter((item) => {

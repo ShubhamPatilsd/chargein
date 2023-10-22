@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <nav className="relative h-16 w-full bg-white px-2 text-lg">
-      <div className="mx-auto flex h-full max-w-5xl items-center justify-between">
+      <div className="mx-auto flex h-full w-full items-center justify-between px-6">
         <div>
           <Link href="/" className="text-2xl  font-bold">
             <Image

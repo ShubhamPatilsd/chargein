@@ -5,18 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiFillCar } from "react-icons/ai";
 import { userAgent } from "next/server";
-import { BookTime } from "../../components/BookTime";
-import { Booking } from "@prisma/client";
 
-const UserPage = ({
-  post,
-  author,
-  schedule,
-}: {
-  post: any;
-  author: any;
-  schedule: Booking[];
-}) => {
+const UserPage = ({ post, author }: { post: any; author: any }) => {
   const { data: session } = useSession();
 
   return (
@@ -131,7 +121,7 @@ const UserPage = ({
           </div>
         </div>
 
-        {/* {session && (
+        {session && (
           <div>
             <a
               href={
@@ -162,9 +152,7 @@ const UserPage = ({
               <div className="-rotate-45 no-underline">⚡</div>
             </a>
           </div>
-        )} */}
-
-        <BookTime schedule={schedule} />
+        )}
       </div>
     </div>
   );
@@ -191,18 +179,10 @@ export async function getServerSideProps(context: any) {
     },
   });
 
-  const schedule = await db.post.findUnique({
-    where: { id: post.id, authorId: post.authorId },
-    include: {
-      Booking: true,
-    },
-  });
-
   return {
     props: {
       post,
       author,
-      schedule: schedule?.Booking,
     },
   };
 }

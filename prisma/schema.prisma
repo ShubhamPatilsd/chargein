@@ -55,39 +55,37 @@ model Session {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  name             String?
-  email            String?   @unique
-  emailVerified    DateTime?
-  image            String?
-  onboardingComplete Boolean? @default(false)
-  isSeller		   Boolean?  @default(false)
-  accounts         Account[]
-  // requests         Booking[]   @relation("requests")
-  // incomingRequests Booking[]   @relation("incoming")
-  sessions         Session[]
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime?
+  image              String?
+  onboardingComplete Boolean?  @default(false)
+  isSeller           Boolean?  @default(false)
+  accounts           Account[]
+  requests           Booking[] @relation("requests")
+  incomingRequests   Booking[] @relation("incoming")
+  sessions           Session[]
   // Post             Post[]
   Post               Post[]
 }
 
-// model Booking {
-//   id          String @id @default(cuid())
-//   // Relations
-//   to          User   @relation("incoming", fields: [authorId], references: [id])
-//   authorId    String
-//   from        User   @relation(name: "requests", fields: [requesterId], references: [id])
-//   requesterId String
+model Booking {
+  id          String @id @default(cuid())
+  // Relations
+  to          User   @relation("incoming", fields: [authorId], references: [id])
+  authorId    String
+  from        User   @relation(name: "requests", fields: [requesterId], references: [id])
+  requesterId String
 
-//   postInQuestion Post @relation(fields: [postId], references: [id])
+  postInQuestion Post @relation(fields: [postId], references: [id])
 
-//   postId String
+  postId String
 
-//   startTime DateTime
+  startTime DateTime
 
-//   endTime DateTime
-//   // postInQuestion Post        @relation(fields: [postId], references: [id])
-//   // postId         String
-// }
+  endTime DateTime
+}
 
 model Post {
   id       String @id @default(cuid())
@@ -105,6 +103,7 @@ model Post {
   // status         TradeStatus
   imageUrls    String?
   // Booking      Booking[]
+  Booking      Booking[]
 }
 
 model VerificationToken {
