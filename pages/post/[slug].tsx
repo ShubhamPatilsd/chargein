@@ -164,7 +164,7 @@ const UserPage = ({
           </div>
         )} */}
 
-        <BookTime schedule={schedule} />
+        <BookTime schedule={schedule} postId={post.id} />
       </div>
     </div>
   );
@@ -200,9 +200,9 @@ export async function getServerSideProps(context: any) {
 
   return {
     props: {
-      post,
-      author,
-      schedule: schedule?.Booking,
+      post: JSON.parse(JSON.stringify(post)),
+      author: JSON.parse(JSON.stringify(author)),
+      schedule: JSON.parse(JSON.stringify(schedule?.Booking)),
     },
   };
 }
