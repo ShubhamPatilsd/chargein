@@ -1,4 +1,9 @@
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  MarkerF,
+} from "@react-google-maps/api";
 import { getSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { db } from "../db/db";
@@ -19,6 +24,7 @@ import {
 import { AiFillCar } from "react-icons/ai";
 import React from "react";
 import { useRouter } from "next/router";
+import { mapStyle } from "../map-style";
 
 export default function Home(props: any) {
   const geolocation = useGeolocation();
@@ -84,6 +90,12 @@ export default function Home(props: any) {
     () => ({
       // disableDefaultUI: true,
       clickableIcons: true,
+      styles: mapStyle,
+      featureType: "all",
+      stylers: [{ visibility: "off" }],
+      streetViewControl: false,
+      mapTypeControl: false,
+
       // scrollwheel: false,
     }),
     []
@@ -106,38 +118,41 @@ export default function Home(props: any) {
             : { lat: geolocation.latitude, lng: geolocation.longitude }
         }
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerClassName="w-[65%] right-0 absolute z-0 min-h-[92vh]"
+        mapContainerClassName="w-[65%] right-0 absolute z-0 h-[95vh]"
         onLoad={() => console.log("Map Component Loaded...")}
       >
         {!geolocation.error &&
           props.places
             .filter((item) => {
               console.log(JSON.parse(item.location).lat);
-              return (
-                getDistance(
-                  {
-                    latitude: JSON.parse(item.location).lat,
-                    longitude: JSON.parse(item.location).lng,
-                  },
-                  // geolocation.error
-                  // ?
-                  // { latitude: 37.7749, longitude: -122.4194 },
-                  // :
-                  {
-                    latitude: geolocation.latitude || 0,
-                    longitude: geolocation.longitude || 0,
-                  },
-                  1
-                ) <= 16500
-              );
+              // return (
+              //   getDistance(
+              //     {
+              //       latitude: JSON.parse(item.location).lat,
+              //       longitude: JSON.parse(item.location).lng,
+              //     },
+              //     // geolocation.error
+              //     // ?
+              //     // { latitude: 37.7749, longitude: -122.4194 },
+              //     // :
+              //     {
+              //       latitude: geolocation.latitude || 0,
+              //       longitude: geolocation.longitude || 0,
+              //     },
+              //     1
+              //   ) <= 16500
+              // );
+              return true;
             })
             .map((thing) => {
               console.log("aa", {
                 lat: JSON.parse(thing.location).lat,
                 lng: JSON.parse(thing.location).lng,
               });
+
+              console.log(props.places);
               return (
-                <Marker
+                <MarkerF
                   icon={{
                     url: "/marker.png",
                     scaledSize: new google.maps.Size(30, 30),
