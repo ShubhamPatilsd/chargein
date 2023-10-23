@@ -6,10 +6,16 @@ import { ConfigProvider, TimePicker } from "antd";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { RangePickerProps } from "antd/es/date-picker";
 
 const arrayofTimes = () => {
   let startingtime = DateTime.now().plus({
-    minutes: Math.ceil(DateTime.now().minute / 15) - DateTime.now().minute,
+    minutes: Math.ceil(DateTime.now().minute / 15) * 15 - DateTime.now().minute,
+  });
+
+  startingtime = startingtime.minus({
+    seconds: startingtime.second,
+    milliseconds: startingtime.millisecond,
   });
 
   let times = [];
@@ -38,22 +44,74 @@ const startingTime = () => {
 const availableTimes = (schedule: Booking[]) => {
   const times = arrayofTimes();
 
+  //   console.log(times);
+
   let bookedTimes: DateTime[] = [];
 
   schedule
     .filter((item) => {
-      return DateTime.fromJSDate(item.startTime) > DateTime.now();
+      return (
+        DateTime.fromJSDate(new Date(item.startTime)) >= DateTime.now() ||
+        DateTime.fromJSDate(new Date(item.endTime)) >= DateTime.now()
+      );
     })
     .map((item) => {
-      let starttime = DateTime.fromJSDate(item.startTime);
+      let starttime = DateTime.fromJSDate(new Date(item.startTime));
 
-      while (starttime < DateTime.fromJSDate(item.endTime)) {
+      starttime = starttime.minus({
+        seconds: starttime.second,
+        milliseconds: starttime.millisecond,
+      });
+
+      while (starttime < DateTime.fromJSDate(new Date(item.endTime))) {
         bookedTimes.push(starttime);
+
         starttime = starttime.plus({ minutes: 15 });
       }
     });
 
-  return times.filter((time) => !bookedTimes.includes(time));
+  //   console.log(
+  //     "sup man",
+  //     bookedTimes.map((booked) => {
+  //       return new Date(booked.toMillis()).toLocaleString();
+  //     }),
+  //     times.map((booked) => {
+  //       return new Date(booked.toMillis()).toLocaleString();
+  //     })
+  //   );
+
+  //   console.log(
+  //     bookedTimes,
+  //     times.filter((time) => {
+  //       console.log(
+  //         bookedTimes.map((booked) => {
+  //           console.log(new Date(booked.toMillis()));
+  //         })
+  //       );
+  //       bookedTimes.forEach((bookedTime) => {
+  //         if (bookedTime === time) {
+  //           console.log("hi");
+  //           return true;
+  //         }
+  //       });
+
+  //       return false;
+  //     })
+  //   );
+  return times.filter((time) => {
+    let itsThere = false;
+    bookedTimes.filter((bookedTime) => {
+      if (
+        new Date(bookedTime.toMillis()).toLocaleString() ===
+        new Date(time.toMillis()).toLocaleString()
+      ) {
+        itsThere = true;
+        return true;
+      }
+    });
+
+    return itsThere;
+  });
 };
 
 export const BookTime = ({
@@ -71,6 +129,35 @@ export const BookTime = ({
   const [duration, setDuration] = useState("");
   const router = useRouter();
 
+  const closedSlots: RangePickerProps["disabledTime"] = () => {
+    const times = availableTimes(schedule);
+
+    return {
+      //   disabledHours: () => {
+      //     // Get hours that are currently booked
+      //     const bookedHours = times.map((time) => time.hour);
+
+      //     return Array.from({ length: 24 }, (_, i) => i).filter((hour) =>
+      //       bookedHours.includes(hour)
+      //     );
+      //   },
+      disabledMinutes: (hour) => {
+        // Get minutes that are currently booked for the given hour
+        const bookedMinutes = times
+          .filter((time) => time.hour === hour)
+          .map((time) => time.minute);
+
+        const past45Minutes = times
+          .filter((time) => time.hour === hour + 1)
+          .map((time) => time.minute);
+
+        return Array.from({ length: 60 }, (_, i) => i).filter((minute) =>
+          bookedMinutes.includes(minute)
+        );
+      },
+    };
+  };
+
   useEffect(() => {
     // console.log(availableTimes(schedule));
 
@@ -81,8 +168,8 @@ export const BookTime = ({
           : times[1].diff(times[0]).as("hours") > 1 ||
             times[1].diff(times[0]).as("minutes") >= 60
           ? `${Math.floor(times[1].diff(times[0]).as("hours"))}h ${
-              times[1].diff(times[0]).as("minutes") % 60 !== 0
-                ? (times[1].diff(times[0]).as("minutes") % 60) + "m"
+              Math.floor(times[1].diff(times[0]).as("minutes")) % 60 !== 0
+                ? (Math.floor(times[1].diff(times[0]).as("minutes")) % 60) + "m"
                 : ""
             }`
           : `${times[1].diff(times[0]).toFormat("mm")}m`
@@ -167,19 +254,14 @@ export const BookTime = ({
                       DateTime.fromJSDate(values?.[0]?.toDate()),
                       DateTime.fromJSDate(values?.[1]?.toDate()),
                     ]);
-                  console.log(
-                    DateTime.fromJSDate(values?.[1]?.toDate())
-                      .diff(DateTime.fromJSDate(values?.[0]?.toDate()))
-                      .as("seconds")
-                  );
+                  //   console.log(
+                  //     DateTime.fromJSDate(values?.[1]?.toDate())
+                  //       .diff(DateTime.fromJSDate(values?.[0]?.toDate()))
+                  //       .as("seconds")
+                  //   );
                 }}
                 minuteStep={15}
-                disabledDate={(currentDate) =>
-                  currentDate.isSame(dayjs(times[0].toJSDate())) &&
-                  availableTimes(schedule).includes(
-                    DateTime.fromJSDate(currentDate.toDate())
-                  )
-                }
+                disabledTime={closedSlots}
                 showSecond={false}
               />
             </ConfigProvider>
