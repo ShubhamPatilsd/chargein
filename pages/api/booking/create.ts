@@ -40,7 +40,11 @@ export default async function handler(
       }
 
       // console.log(parseFloat(pricePerHour));
-
+      db.user.findUnique({
+        where: {
+          id: post.authorId,
+        },
+      });
       const result = await db.booking.create({
         data: {
           postId: postId,
