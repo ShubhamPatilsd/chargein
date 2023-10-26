@@ -19,12 +19,19 @@ import {
 import { AiFillCar } from "react-icons/ai";
 import React from "react";
 import { useRouter } from "next/router";
+import { Duplex } from "stream";
 
 export default function Home(props: any) {
   const router = useRouter();
-  const data = JSON.parse(props.requests);
+  const [mounted, setMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const data = JSON.parse(props.requests);
+  const cur = new Date();
+  return mounted ? (
     <main className="mx-6 lg:mx-24">
       <div className="mt-24 mb-8 text-3xl font-bold lg:text-5xl">
         {" "}
@@ -55,11 +62,92 @@ export default function Home(props: any) {
                     >
                       Address
                     </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {data.map(
+                    (
+                      element: {
+                        name: string;
+                        start: Date;
+                        end: Date;
+                        address: string;
+                        image: string;
+                        read: boolean;
+                      },
+                      index: number
+                    ) =>
+                      new Date(element.start) > cur ? (
+                        <tr
+                          className={
+                            "" +
+                            (element.read == true
+                              ? " hover:bg-gray-100"
+                              : " bg-blue-300 ")
+                          }
+                          key={index}
+                        >
+                          <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {element.name}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                            {new Date(element.start).toLocaleString("en-US", {
+                              month: "numeric",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })}{" "}
+                            -{" "}
+                            {new Date(element.end).toLocaleString("en-US", {
+                              month: "numeric",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                            {element.address}
+                          </td>
+                        </tr>
+                      ) : (
+                        <div key={index}></div>
+                      )
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-24 mb-8 text-3xl font-bold lg:text-5xl"> History</div>
+      <div className="flex  flex-col rounded-lg border-2">
+        <div className="-m-1.5 overflow-x-auto">
+          <div className="inline-block min-w-full p-1.5 align-middle">
+            <div className="overflow-hidden">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead>
+                  <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500"
                     >
-                      Action
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500"
+                    >
+                      Time
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500"
+                    >
+                      Address
                     </th>
                   </tr>
                 </thead>
@@ -74,46 +162,41 @@ export default function Home(props: any) {
                         image: string;
                       },
                       index: number
-                    ) => (
-                      <tr
-                        className="hover:bg-gray-100 dark:hover:bg-gray-700"
-                        key={index}
-                      >
-                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
-                          {element.name}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
-                          {new Date(element.start).toLocaleString("en-US", {
-                            month: "numeric",
-                            day: "numeric",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                            hour12: true,
-                          })}{" "}
-                          -{" "}
-                          {new Date(element.end).toLocaleString("en-US", {
-                            month: "numeric",
-                            day: "numeric",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                            hour12: true,
-                          })}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
-                          {element.address}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                          <a
-                            className="text-blue-500 hover:text-blue-700"
-                            href="#"
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr>
-                    )
+                    ) =>
+                      new Date(element.start) < cur ? (
+                        <tr
+                          className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                          key={index}
+                        >
+                          <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {element.name}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                            {new Date(element.start).toLocaleString("en-US", {
+                              month: "numeric",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })}{" "}
+                            -{" "}
+                            {new Date(element.end).toLocaleString("en-US", {
+                              month: "numeric",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "numeric",
+                              hour12: true,
+                            })}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800 dark:text-gray-200">
+                            {element.address}
+                          </td>
+                        </tr>
+                      ) : (
+                        <></>
+                      )
                   )}
                 </tbody>
               </table>
@@ -122,6 +205,8 @@ export default function Home(props: any) {
         </div>
       </div>
     </main>
+  ) : (
+    <></>
   );
 }
 
@@ -149,13 +234,22 @@ export async function getServerSideProps(context: any) {
               id: element.postId,
             },
           });
-
+          const bef = element.readByRenter;
+          await db.booking.update({
+            where: {
+              id: element.id,
+            },
+            data: {
+              readByRenter: true,
+            },
+          });
           return {
             name: requester?.name,
             picture: requester?.image,
             start: element.startTime,
             end: element.endTime,
             address: post?.Address,
+            read: bef,
           };
         })
       )

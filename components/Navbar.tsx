@@ -5,14 +5,29 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { HiOutlinePencilAlt, HiInbox, HiLogout, HiUser } from "react-icons/hi";
 import { MdOutlineOutbox } from "react-icons/md";
+import { BsInboxFill } from "react-icons/bs";
 import Image from "next/image";
 import logo from "../public/logo.svg";
+import { fetchData } from "next-auth/client/_utils";
+import { useState, useEffect } from "react";
 
 function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [unread, setUnread] = useState(-1);
+  useEffect(() => {
+    const getData = async () => {
+      const res = await fetch("/api/booking/unread", {
+        cache: "no-store",
+        method: "POST",
+      });
+      const data = await res.json();
+      setUnread(data.response);
+    };
+    getData();
+  }, []);
 
-  return (
+  return unread != -1 ? (
     <nav className="relative h-16 w-full bg-white px-2 text-lg">
       <div className="mx-auto flex h-full w-full items-center justify-between px-6">
         <div>
@@ -43,9 +58,30 @@ function Navbar() {
                 </p>
               </p>
             </Link>
-
+            <Link
+              className=" flex items-center  justify-center rounded-md bg-orange-200 px-2 hover:bg-orange-300"
+              href={`/inbox`}
+            >
+              <BsInboxFill size={30} />
+              {unread > 0 ? (
+                <div className="-mt-8 -mr-4 h-5 w-5 rounded-full bg-red-500 text-center font-bold text-white">
+                  {unread}
+                </div>
+              ) : (
+                <></>
+              )}
+              {
+                //   <span className="mr-2 pt-1">{session.user!.name}</span>
+                //   <img
+                //     className="inline-block rounded-full"
+                //     src={session.user!.image}
+                //     width={30}
+                //   />
+                // </p>
+              }
+            </Link>
             <button
-              className="rounded-full bg-orange-200 hover:bg-orange-300"
+              className="rounded-md bg-orange-200 hover:bg-orange-300"
               onClick={() => signOut()}
             >
               <HiLogout
@@ -67,6 +103,8 @@ function Navbar() {
       </div>
       <div className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-fuchsia-500 via-orange-500 to-indigo-600" />
     </nav>
+  ) : (
+    <></>
   );
 }
 
