@@ -3,13 +3,20 @@ import { getServerSession } from "next-auth";
 import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { HiOutlinePencilAlt, HiInbox, HiLogout, HiUser } from "react-icons/hi";
+import {
+  HiOutlinePencilAlt,
+  HiInbox,
+  HiLogout,
+  HiUser,
+  HiOutlineInbox,
+} from "react-icons/hi";
 import { MdOutlineOutbox } from "react-icons/md";
 import { BsInboxFill } from "react-icons/bs";
 import Image from "next/image";
 import logo from "../public/logo.svg";
 import { fetchData } from "next-auth/client/_utils";
 import { useState, useEffect } from "react";
+import { HiMiniInboxStack, HiOutlineInboxArrowDown } from "react-icons/hi2";
 
 function Navbar() {
   const { data: session, status } = useSession();
@@ -47,22 +54,26 @@ function Navbar() {
               // className=" bg-orange-200 px-2 hover:bg-orange-300 rounded-md"
               href={`/user/${session.user!.id}`}
             >
-              <p className="rounded-full bg-orange-200 p-2 hover:bg-orange-300">
-                <p>
-                  <span className="mr-2 pt-1">{session.user!.name}</span>
-                  <img
-                    className="inline-block rounded-full"
-                    src={session.user!.image}
-                    width={30}
-                  />
-                </p>
+              {/* <p className="rounded-full bg-orange-200 p-2 hover:bg-orange-300"> */}
+              <p>
+                {/* <span className="mr-2 pt-1">{session.user!.name}</span> */}
+                <img
+                  className="inline-block rounded-full"
+                  src={session.user!.image}
+                  width={30}
+                />
               </p>
+              {/* </p> */}
             </Link>
             <Link
-              className=" flex items-center  justify-center rounded-md bg-orange-200 px-2 hover:bg-orange-300"
+              // className=" flex items-center  justify-center rounded-md bg-orange-200 px-2 hover:bg-orange-300"
+              className="flex aspect-square h-full  items-center  justify-center rounded-lg border-[1px] border-gray-300 transition hover:bg-gray-200"
               href={`/inbox`}
             >
-              <BsInboxFill size={30} />
+              <HiOutlineInboxArrowDown
+                size={23}
+                className="font-black text-gray-600"
+              />
               {unread > 0 ? (
                 <div className="-mt-8 -mr-4 h-5 w-5 rounded-full bg-red-500 text-center font-bold text-white">
                   {unread}

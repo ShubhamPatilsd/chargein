@@ -42,9 +42,7 @@ export default function CreatePost() {
   const [description, setDescription] = useState<string>();
   let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
 
-  const [imageUrl, setImageUrl] = useState(
-    "https://v1.tailwindcss.com/_next/static/media/tailwind-ui-sidebar.2ccd3a8ec5f31f428204b5c3c4d9a485.png"
-  );
+  const [imageUrl, setImageUrl] = useState("");
 
   let handleFileChange = async (file: any) => {
     let { url } = await uploadToS3(file);
@@ -263,7 +261,7 @@ export default function CreatePost() {
                 "focus-visible:ring-ring inline-flex h-9 items-center justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50"
               }
             >
-              Create Posting hi
+              Create Posting
             </button>
           )}
         </div>
