@@ -17,6 +17,7 @@ import logo from "../public/logo.svg";
 import { fetchData } from "next-auth/client/_utils";
 import { useState, useEffect } from "react";
 import { HiMiniInboxStack, HiOutlineInboxArrowDown } from "react-icons/hi2";
+import Dropdown from "./Dropdown";
 
 function Navbar() {
   const { data: session, status } = useSession();
@@ -49,22 +50,7 @@ function Navbar() {
           </Link>
         </div>
         {status === "loading" ? null : status === "authenticated" ? (
-          <div className="flex items-stretch space-x-3 text-sm">
-            <Link
-              // className=" bg-orange-200 px-2 hover:bg-orange-300 rounded-md"
-              href={`/user/${session.user!.id}`}
-            >
-              {/* <p className="rounded-full bg-orange-200 p-2 hover:bg-orange-300"> */}
-              <p>
-                {/* <span className="mr-2 pt-1">{session.user!.name}</span> */}
-                <img
-                  className="inline-block rounded-full"
-                  src={session.user!.image}
-                  width={30}
-                />
-              </p>
-              {/* </p> */}
-            </Link>
+          <div className=" grid grid-cols-2 grid-rows-1 items-center gap-3 text-sm">
             <Link
               // className=" flex items-center  justify-center rounded-md bg-orange-200 px-2 hover:bg-orange-300"
               className="flex aspect-square h-full  items-center  justify-center rounded-lg border-[1px] border-gray-300 transition hover:bg-gray-200"
@@ -91,7 +77,9 @@ function Navbar() {
                 // </p>
               }
             </Link>
-            <button
+
+            <Dropdown />
+            {/* <button
               className="rounded-md bg-orange-200 hover:bg-orange-300"
               onClick={() => signOut()}
             >
@@ -99,7 +87,7 @@ function Navbar() {
                 size={35}
                 className="rounded-full bg-orange-200 p-2 hover:bg-orange-300"
               />
-            </button>
+            </button> */}
           </div>
         ) : (
           <div>
