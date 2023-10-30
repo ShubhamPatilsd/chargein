@@ -24,7 +24,7 @@ const HostPage = ({ user, listings }: { user: any; listings: any }) => {
           href={"/create/post"}
           className="mt-4 rounded-lg bg-[#ff6b00] p-2 text-xl font-medium text-white transition duration-200  hover:scale-105"
         >
-          Create a new rental.
+          Create Rental
         </Link>
 
         {posts.length > 0 && (

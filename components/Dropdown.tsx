@@ -2,13 +2,13 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Dropdown() {
+export default function Dropdown({ user }: { user?: any }) {
   const { data: session, status } = useSession();
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -41,26 +41,13 @@ export default function Dropdown() {
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  href={`/user/${user.id}`}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  Edit
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Duplicate
+                  Profile
                 </a>
               )}
             </Menu.Item>
@@ -69,69 +56,15 @@ export default function Dropdown() {
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  onClick={() => {
+                    signOut();
+                  }}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  Archive
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Move
-                </a>
-              )}
-            </Menu.Item>
-          </div>
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Share
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Add to favorites
-                </a>
-              )}
-            </Menu.Item>
-          </div>
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Delete
+                  Logout
                 </a>
               )}
             </Menu.Item>

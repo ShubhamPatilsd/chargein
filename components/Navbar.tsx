@@ -23,6 +23,7 @@ function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [unread, setUnread] = useState(-1);
+  const [user, setUser] = useState<any>();
   useEffect(() => {
     const getData = async () => {
       const res = await fetch("/api/booking/unread", {
@@ -33,6 +34,15 @@ function Navbar() {
       setUnread(data.response);
     };
     getData();
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/user/me")
+      .then((res) => res.json())
+      .then((userResult) => {
+        setUser(userResult.user);
+        console.log(userResult.user);
+      });
   }, []);
 
   return unread != -1 ? (
@@ -78,7 +88,7 @@ function Navbar() {
               }
             </Link>
 
-            <Dropdown />
+            <Dropdown user={user} />
             {/* <button
               className="rounded-md bg-orange-200 hover:bg-orange-300"
               onClick={() => signOut()}
